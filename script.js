@@ -8,11 +8,8 @@ const firebaseConfig = {
   appId: "1:1014311982277:web:0cb545d498b32b90078cac"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-
-// Set session to persist across tabs and restarts
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 let confirmationResult;
@@ -34,6 +31,12 @@ window.onload = function () {
     window.recaptchaVerifier.render().then(function (widgetId) {
       window.recaptchaWidgetId = widgetId;
     });
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get('redirect');
+  if (auth.currentUser && window.location.pathname.includes("login.html") && redirectTo) {
+    window.location.href = redirectTo;
   }
 };
 
@@ -57,7 +60,8 @@ function verifyCode() {
   confirmationResult.confirm(code)
     .then(result => {
       document.getElementById("msg").innerText = "تم التحقق! سيتم تحويلك...";
-      setTimeout(() => window.location.href = "index.html", 1000);
+      const redirectTo = new URLSearchParams(window.location.search).get('redirect') || "index.html";
+      setTimeout(() => window.location.href = redirectTo, 1000);
     })
     .catch(error => {
       document.getElementById("msg").innerText = "رمز غير صحيح.";
@@ -65,19 +69,17 @@ function verifyCode() {
 }
 
 function logOut() {
-  auth.signOut().then(() => window.location.href = "login.html");
+  auth.signOut().then(() => {
+    alert("تم تسجيل الخروج");
+    window.location.href = "index.html";
+  });
 }
 
 auth.onAuthStateChanged(user => {
-  if (user) {
-    if (window.location.pathname.includes("login.html")) {
-      window.location.href = "index.html";
-    }
-  } else {
-    const protectedPages = ["Rent.html", "AllLands.html"];
-    const current = window.location.pathname.split("/").pop();
-    if (protectedPages.includes(current)) {
-      window.location.href = "login.html";
-    }
+  const current = window.location.pathname.split("/").pop();
+  if (current === "AllLands.html" && !user) {
+    const loginURL = new URL("login.html", window.location.origin);
+    loginURL.searchParams.set("redirect", window.location.pathname.split("/").pop());
+    window.location.href = loginURL.href;
   }
 });
