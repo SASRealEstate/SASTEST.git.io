@@ -74,7 +74,7 @@ function verifyCode() {
   confirmationResult.confirm(code)
     .then(result => {
       document.getElementById("msg").innerText = "تم التحقق! سيتم تحويلك...";
-      setTimeout(() => window.location.href = "index.html", 1000);
+      setTimeout(() => window.location.href = "AllLands.html", 1000);
     })
     .catch(error => {
       document.getElementById("msg").innerText = "رمز غير صحيح.";
