@@ -20,7 +20,34 @@ function normalizePhone(input) {
   return '+966' + input;
 }
 
-window.onload = function () {
+window.addEventListener("DOMContentLoaded", () => {
+  // Toggle login/logout button visibility
+  auth.onAuthStateChanged(user => {
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    if (user) {
+      if (loginBtn) loginBtn.style.display = "none";
+      if (logoutBtn) logoutBtn.style.display = "inline-block";
+    } else {
+      if (loginBtn) loginBtn.style.display = "inline-block";
+      if (logoutBtn) logoutBtn.style.display = "none";
+    }
+
+    // Protect AllLands.html only
+    const current = window.location.pathname.split("/").pop();
+    if (current === "AllLands.html" && !user) {
+      const loginURL = new URL("login.html", window.location.origin);
+      loginURL.searchParams.set("redirect", current);
+      window.location.href = loginURL.href;
+    }
+  });
+});
+
+function sendCode() {
+  const rawPhone = document.getElementById("phone").value;
+  const phone = normalizePhone(rawPhone);
+
   if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       size: 'normal',
@@ -32,17 +59,6 @@ window.onload = function () {
       window.recaptchaWidgetId = widgetId;
     });
   }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectTo = urlParams.get('redirect');
-  if (auth.currentUser && window.location.pathname.includes("login.html") && redirectTo) {
-    window.location.href = redirectTo;
-  }
-};
-
-function sendCode() {
-  const rawPhone = document.getElementById("phone").value;
-  const phone = normalizePhone(rawPhone);
 
   auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
     .then(result => {
@@ -74,19 +90,3 @@ function logOut() {
     window.location.href = "index.html";
   });
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-  auth.onAuthStateChanged(user => {
-    const loginBtn = document.getElementById("login-btn");
-    const logoutBtn = document.getElementById("logout-btn");
-
-    if (user) {
-      if (loginBtn) loginBtn.style.display = "none";
-      if (logoutBtn) logoutBtn.style.display = "inline-block";
-    } else {
-      if (loginBtn) loginBtn.style.display = "inline-block";
-      if (logoutBtn) logoutBtn.style.display = "none";
-    }
-  });
-});
-
