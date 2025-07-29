@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>قائمة الشقق للإيجار</title>
+<link rel="icon" href="Logo.png" type="image/png">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet"/>
+<style>
+        body {
+                background: linear-gradient(to bottom, #dbd692 , #ffffff);
+                font-family: Tahoma, sans-serif;
+                padding: 30px;
+                text-align: center;
+                direction: rtl;
+            }
+        table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="index.html">
+<img alt="شعار المكتب" img src="Logo.png" style="height: 300px;"/><br/><br/>
+</a>
+<a href="tel:0534108666" style="margin:5px;padding:10px 15px;background-color:#25D366;border-radius:5px;">📞 اتصل الآن</a>
+<a href="https://wa.me/966534108666" style="margin:5px;padding:10px 15px;background-color:#25D366;border-radius:5px;">💬 واتساب</a>
+<br>
+<br>
+<br>
+<a href="https://maps.app.goo.gl/2NUqCqLExX86fFG87" style="margin:5px;padding:10px 15px;background-color:#25D366;border-radius:5px;">📍 موقع المكتب ، تقييمك يهمنا!</a>
+<br>
+<br>
+<br>
+<a href="index.html" style="margin:5px;padding:10px 15px;background-color:#25D366;border-radius:5px;">العودة للصفحة الرئيسية</a>
+<a href="AllLands.html" style="margin:5px;padding:10px 15px;background-color:#25D366;border-radius:5px;">أراضي للبيع</a>
+</div>
+<h2 style="text-align:center;">قائمة الشقق للإيجار</h2>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet"/>
+<div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+<label>مؤثثة:
+        <select id="filterFurnished">
+<option value="">الكل</option>
+<option value="نعم">نعم</option>
+<option value="لا">لا</option>
+</select>
+</label>
+<div>
+<div style="margin-bottom: 5px;">الدور:</div>
+<label style="margin-left: 10px;"><input class="floorCheckbox" type="checkbox" value="1"/> 1</label><label style="margin-left: 10px;"><input class="floorCheckbox" type="checkbox" value="2"/> 2</label><label style="margin-left: 10px;"><input class="floorCheckbox" type="checkbox" value="3"/> 3</label>
+</div>
+</div>
+<div style="margin-bottom: 20px; text-align: center;">
+<label for="minPriceInput" style="font-weight: bold;">من:</label>
+<input id="minPriceInput" placeholder="الحد الأدنى" style="margin: 5px; padding: 5px; width: 120px;" type="number"/>
+<label for="maxPriceInput" style="font-weight: bold;">إلى:</label>
+<input id="maxPriceInput" placeholder="الحد الأعلى" style="margin: 5px; padding: 5px; width: 120px;" type="number"/>
+</div>
+
+
+<table class="dataframe display" id="productTable">
+
+<thead>
+  <tr>
+    <th>الرقم</th>
+    <th>نوع العقار</th>
+    <th>الموقع</th>
+    <th>الدور</th>
+    <th>الغرف</th>
+    <th>دورات المياه</th>
+    <th>صاله</th>
+    <th>مطبخ</th>
+    <th>مستودع</th>
+    <th>مصعد</th>
+    <th>مؤثثة</th>
+    <th>مطبخ راكب</th>
+    <th>مدخل</th>
+    <th>مواصفات أخرى</th>
+    <th>اجمالي الإيجار</th>
+    <th>صور</th>
+  </tr>
+</thead>
+
+
+    <tr>
+      <td>12</td>
+      <td>شقة</td>
+      <td><a href="https://maps.app.goo.gl/Uw88fZud3RmqRmT97" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📍 الموقع</a></td>
+      <td>3</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-</td>
+      <td>لا</td>
+      <td>لا</td>
+      <td>نعم</td>
+      <td>مشترك</td>
+      <td>-</td>
+      <td>20000</td>
+      <td><a href="https://drive.google.com/drive/folders/1SqVqoj3zCAqSSYwxPxMD_sOBLECLqZgJ?usp=drive_link" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📷 صور</a></td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>شقة</td>
+      <td><a href="https://maps.app.goo.gl/nEQgs8VmzaDxHUf7A" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📍 الموقع</a></td>
+      <td>2</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-</td>
+      <td>نعم</td>
+      <td>نعم</td>
+      <td>نعم</td>
+      <td>مشترك</td>
+      <td>تأمين 2000 - ماء وكهرباء - صيفية</td>
+      <td>8000</td>
+      <td><a href="https://drive.google.com/drive/folders/1qMyxtq6rTjLsL9Sd6oPQYIJ4MhEnXBYk?usp=drive_link" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📷 صور</a></td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>شقة</td>
+      <td><a href="https://maps.app.goo.gl/BzjH7LpjhVvkrmK58" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📍 الموقع</a></td>
+      <td>2</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-</td>
+      <td>-</td>
+      <td>نعم</td>
+      <td>نعم</td>
+      <td>مشترك</td>
+      <td>صيفية</td>
+      <td>4900</td>
+      <td><a href="https://drive.google.com/drive/folders/1-pzuumcwAUeYZBtDk9jtpgGTuO3UYUr5?usp=sharing" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📷 صور</a></td>
+    </tr>
+    <tr>
+      <td>43</td>
+      <td>شقة</td>
+      <td><a href="https://maps.app.goo.gl/Qr1A3qJRGgY7bvEU9" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📍 الموقع</a></td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-</td>
+      <td>-</td>
+      <td>لا</td>
+      <td>نعم</td>
+      <td>مستقل</td>
+      <td>حوش مستقل</td>
+      <td>25000</td>
+      <td><a href="https://drive.google.com/drive/folders/1a-9za7tVZbxMtPprIWgYAtjikFcPy-vd?usp=sharing" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📷 صور</a></td>
+    </tr>
+    <tr>
+      <td>44</td>
+      <td>شقة</td>
+      <td><a href="https://maps.app.goo.gl/MMnR4y961L8EYv1D6" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📍 الموقع</a></td>
+      <td>3</td>
+      <td>5</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-</td>
+      <td>لا</td>
+      <td>لا</td>
+      <td>نعم</td>
+      <td>مستقل</td>
+      <td></td>
+      <td>22000</td>
+      <td><a href="https://drive.google.com/drive/folders/1ZktheD1gtdpAamNYrZOMui9VPTYYcO82?usp=sharing" target="_blank" style="padding:5px 10px;background-color:#0d6efd;color:white;border-radius:5px;text-decoration:none;">📷 صور</a></td>
+    </tr>
+  
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+<script>
+function stripTags(html) {
+    return html.replace(/<[^>]*>?/gm, '').trim();
+}
+
+window.addEventListener('load', function() {
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        const rentIndex = $('#productTable thead th').filter(function() {
+            return $(this).text().trim() === "اجمالي الإيجار";
+        }).index();
+        const floorIndex = $('#productTable thead th').filter(function() {
+            return $(this).text().trim() === "الدور";
+        }).index();
+
+        const rent = parseInt(stripTags(data[rentIndex])) || 0;
+        const floor = parseInt(stripTags(data[floorIndex])) || 0;
+
+        const min = parseInt($('#minPriceInput').val()) || 0;
+        const max = parseInt($('#maxPriceInput').val()) || 1000000;
+        const selectedFloors = $('.floorCheckbox:checked').map(function() {
+            return parseInt($(this).val());
+        }).get();
+
+        if (rent < min || rent > max) return false;
+        if (selectedFloors.length && !selectedFloors.includes(floor)) return false;
+
+        return true;
+    });
+
+    $('#minPriceInput, #maxPriceInput').on('input', function() {
+        $('#productTable').DataTable().draw();
+    });
+
+    $('.floorCheckbox').on('change', function() {
+        $('#productTable').DataTable().draw();
+    });
+});
+</script><script>
+window.addEventListener('load', function() {
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        const furnishedIndex = $('#productTable thead th').filter(function() {
+            return $(this).text().trim() === "مؤثثة";
+        }).index();
+
+        const selectedFurnished = $('#filterFurnished').val();
+        const furnishedValue = data[furnishedIndex].trim();
+
+        if (selectedFurnished === "" || furnishedValue === selectedFurnished) {
+            return true;
+        }
+        return false;
+    });
+
+    $('#filterFurnished').on('change', function() {
+        $('#productTable').DataTable().draw();
+    });
+});
+</script>
+<script>
+    function stripTags(html) {
+        return html.replace(/<[^>]*>?/gm, '').trim();
+    }
+
+    $(document).ready(function () {
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            const furnishedIndex = $('#productTable thead th').filter(function () { return $(this).text().trim() === "مؤثثة"; }).index();
+            const floorIndex = $('#productTable thead th').filter(function () { return $(this).text().trim() === "الدور"; }).index();
+            const rentIndex = $('#productTable thead th').filter(function () { return $(this).text().trim() === "اجمالي الإيجار"; }).index();
+
+            const furnishedValue = $('#filterFurnished').val();
+            const selectedFloors = $('.floorCheckbox:checked').map(function () { return parseInt($(this).val()); }).get();
+            const maxPrice = parseInt($('#priceSlider').val()) || 100000;
+
+            const furnished = stripTags(data[furnishedIndex]);
+            const floor = parseInt(stripTags(data[floorIndex])) || 0;
+            const rent = parseInt(stripTags(data[rentIndex])) || 0;
+
+            if (furnishedValue && furnished !== furnishedValue) return false;
+            if (selectedFloors.length && !selectedFloors.includes(floor)) return false;
+            if (rent > maxPrice) return false;
+
+            return true;
+        });
+
+        $('#filterFurnished, .floorCheckbox, #priceSlider').on('change input', function () {
+            $('#productTable').DataTable().draw();
+        });
+
+        $('#productTable').DataTable({
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/ar.json"
+            }
+        });
+    });
+</script>
+
+<h2 style="text-align:center;">خريطة المواقع</h2>
+<div id="RentMap" style="height: 500px; width: 300%; margin: 0 auto; border-radius: 10px;"></div>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+  var RentMap = L.map('RentMap').setView([18.275406366370408, 42.59176906998552], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+  }).addTo(RentMap);
+
+  L.marker([18.275406366370408, 42.59176906998552]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/2NUqCqLExX86fFG87" target="_blank">📍 موقع المكتب </a>');
+
+  L.marker([18.300364593176624, 42.593944199093286]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/Uw88fZud3RmqRmT97" target="_blank">شقة 12 </a>');
+  L.marker([18.274658523599495, 42.58890933070823]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/nEQgs8VmzaDxHUf7A" target="_blank">شقة 15 </a>');
+  L.marker([18.223555599999997, 42.59924463558224]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/BzjH7LpjhVvkrmK58" target="_blank">شقة 40 </a>');
+  L.marker([18.300003979754557, 42.59276555092437]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/Qr1A3qJRGgY7bvEU9" target="_blank">شقة 43 </a>');
+  L.marker([18.275409501419073, 42.59043436441777]).addTo(RentMap)
+    .bindPopup('<a href="https://maps.app.goo.gl/MMnR4y961L8EYv1D6" target="_blank">شقة 44 </a>');
+
+    
+</script>
+
+</body>
+
+</html>
