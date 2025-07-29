@@ -10,15 +10,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-window.addEventListener("DOMContentLoaded", () => {
+firebase.auth().onAuthStateChanged(user => {
   const current = window.location.pathname.split("/").pop();
-  if (current === "AllLands.html") {
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        const loginURL = new URL("login.html", window.location.origin);
-        loginURL.searchParams.set("redirect", current);
-        window.location.href = loginURL.href;
-      }
-    });
+  if (current === "AllLands.html" && !user) {
+    const loginURL = new URL("login.html", window.location.origin);
+    loginURL.searchParams.set("redirect", current);
+    window.location.href = loginURL.href;
   }
 });
