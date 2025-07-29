@@ -1,3 +1,4 @@
+
 const firebaseConfig = {
   apiKey: "AIzaSyClkUIAwd4rkHLWMxVLKU59IW2RZkZUnNY",
   authDomain: "sas-realestate-c79bf.firebaseapp.com",
@@ -7,9 +8,12 @@ const firebaseConfig = {
   appId: "1:1014311982277:web:0cb545d498b32b90078cac"
 };
 
-// Initialize Firebase using Compat API
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+
+// Set session to persist across tabs and restarts
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 let confirmationResult;
 
