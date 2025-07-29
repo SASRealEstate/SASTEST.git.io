@@ -76,10 +76,15 @@ function logOut() {
 }
 
 auth.onAuthStateChanged(user => {
-  const current = window.location.pathname.split("/").pop();
-  if (current === "AllLands.html" && !user) {
-    const loginURL = new URL("login.html", window.location.origin);
-    loginURL.searchParams.set("redirect", window.location.pathname.split("/").pop());
-    window.location.href = loginURL.href;
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (user) {
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+  } else {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
   }
 });
+
