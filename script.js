@@ -11,10 +11,14 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
 firebase.auth().onAuthStateChanged(user => {
-  const current = window.location.pathname.split("/").pop();
-  if (current === "AllLands.html" && !user) {
-    const loginURL = new URL("login.html", window.location.origin);
-    loginURL.searchParams.set("redirect", current);
-    window.location.href = loginURL.href;
+  const isProtectedPage = window.location.pathname.includes("AllLands.html");
+
+  if (isProtectedPage) {
+    if (!user) {
+      // Not logged in → redirect
+      window.location.href = "login.html";
+    }
+    // If logged in → do nothing, stay on page
   }
 });
+
